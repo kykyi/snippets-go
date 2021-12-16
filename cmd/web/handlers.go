@@ -3,8 +3,8 @@ package main
 import (
 	"errors"
 	"fmt"
-	"kykyi/my-id/pkg/forms"
-	"kykyi/my-id/pkg/models"
+	"kykyi/snippets-go/pkg/forms"
+	"kykyi/snippets-go/pkg/models"
 	"net/http"
 	"strconv"
 )

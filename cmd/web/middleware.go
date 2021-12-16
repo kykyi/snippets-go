@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"kykyi/my-id/pkg/models"
+	"kykyi/snippets-go/pkg/models"
 	"net/http"
 
 	"github.com/justinas/nosurf"

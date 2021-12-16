@@ -1,4 +1,4 @@
-module kykyi/my-id
+module kykyi/snippets-go
 
 go 1.17
 

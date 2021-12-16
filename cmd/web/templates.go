@@ -2,8 +2,8 @@ package main
 
 import (
 	"html/template"
-	"kykyi/my-id/pkg/forms"
-	"kykyi/my-id/pkg/models"
+	"kykyi/snippets-go/pkg/forms"
+	"kykyi/snippets-go/pkg/models"
 	"path/filepath"
 	"time"
 )

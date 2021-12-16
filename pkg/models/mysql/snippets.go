@@ -3,7 +3,7 @@ package mysql
 import (
 	"database/sql"
 	"errors"
-	"kykyi/my-id/pkg/models"
+	"kykyi/snippets-go/pkg/models"
 )
 
 type SnippetModel struct {

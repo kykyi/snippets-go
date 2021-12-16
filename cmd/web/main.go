@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"flag"
 	"html/template"
-	"kykyi/my-id/pkg/models/mysql"
+	"kykyi/snippets-go/pkg/models/mysql"
 	"log"
 	"net/http"
 	"os"
