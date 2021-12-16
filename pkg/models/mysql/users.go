@@ -37,6 +37,8 @@ func (m *UserModel) Insert(name, email, password string) error {
 	return nil
 }
 
+// Similar to User.find_by(email: params[:email]).authenticate(params[:password])
+// using bcrypt gem and has_secure_password
 func (m *UserModel) Authenticate(email, password string) (int, error) {
 	var id int
 	var hashedPassword []byte

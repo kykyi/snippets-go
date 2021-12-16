@@ -11,6 +11,8 @@ var (
 	ErrDuplicateEmail     = errors.New("models: duplicate email")
 )
 
+// Similar to a schema.rb
+
 type Snippet struct {
 	ID      int
 	Title   string

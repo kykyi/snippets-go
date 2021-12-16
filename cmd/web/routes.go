@@ -8,10 +8,15 @@ import (
 )
 
 func (app *application) routes() http.Handler {
+	// Read the middleware in the opposite order for requests, the order provided for responses
+	// request -> secure the headers, log the request, save any errors
+	// request -> secure the headers, log the request, save any errors
 	standardMiddleware := alice.New(app.recoverPanic, app.logRequest, secureHeaders)
 	dynamicMiddleware := alice.New(app.session.Enable, noSurf, app.authenticate)
 
 	mux := pat.New()
+	// run the middleware then call a Handler
+	//
 	mux.Get("/", dynamicMiddleware.ThenFunc(app.home))
 	// Snippet routes
 	mux.Get("/snippet/create", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.createSnippetForm))

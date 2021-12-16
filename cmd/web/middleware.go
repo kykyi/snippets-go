@@ -14,6 +14,9 @@ func secureHeaders(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-XSS-Protection", "1; mode=block")
 		w.Header().Set("X-Frame-Options", "deny")
+
+		// return a value which satistfies the http.Handler interface
+		// allowing middleware to be chained
 		next.ServeHTTP(w, r)
 	})
 }
@@ -26,6 +29,10 @@ func (app *application) logRequest(next http.Handler) http.Handler {
 	})
 }
 
+// defer tells Go to run the func provided after the func it is declared in
+// returns
+//
+// This means if any panic (unhandled error) bubbles up
 func (app *application) recoverPanic(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer func() {

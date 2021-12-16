@@ -1,3 +1,5 @@
+// Templating is not a very exciting topic
+// define the template base
 {{define "base"}}
 <!doctype html>
 <html lang='en'>
@@ -15,14 +17,18 @@
         <nav>
             <div>
                 <a href='/'>Home</a>
+								// go-esque functions and keywords can be used in tmpl files
                 {{if .IsAuthenticated}}
+										// unlike Rails, there is few html helper functions
                     <a href='/snippet/create'>Create snippet</a>
                 {{end}}
             </div>
             <div>
                 {{if .IsAuthenticated}}
                     <form action='/user/logout' method='POST'>
+												// Rails does this by default in the <head />
                         <!-- Include the CSRF token -->
+												// call the CSRFToken field on the template struct
                         <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
                         <button>Logout</button>
                     </form>
@@ -36,6 +42,7 @@
             {{with .Flash}}
             <div class='flash'>{{.}}</div>
             {{end}}
+						// similar to rails <%= render_template 'main' %>
             {{template "main" .}}
         </main>
         {{template "footer" .}}
@@ -43,3 +50,4 @@
     </body>
 </html>
 {{end}}
+// close the template

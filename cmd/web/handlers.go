@@ -9,7 +9,11 @@ import (
 	"strconv"
 )
 
+// app *application indicates this function is against *application (references to the values
+// in the application struct declared in main) so can access its fields
+// These are loosely similar to instance methods on Ruby classes
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
+	// example of the snippets field on *application being accessed
 	s, err := app.snippets.Latest()
 	if err != nil {
 		app.serverError(w, err)
@@ -21,13 +25,16 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// similar the SnippetsController#show
 func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
+	// get the query param of :id, cast it to an integer from a string
 	id, err := strconv.Atoi(r.URL.Query().Get(":id"))
 	if err != nil || id < 1 {
 		app.notFound(w)
 		return
 	}
 
+	// analogous to Snippet.find(id)
 	s, err := app.snippets.Get(id)
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecord) {
@@ -38,17 +45,21 @@ func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// If there are no errors render the show page and make the Snippet s
+	// available as template data
 	app.render(w, r, "show.page.tmpl", &templateData{
 		Snippet: s,
 	})
 }
 
+// SnippetsController#new
 func (app *application) createSnippetForm(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "create.page.tmpl", &templateData{
 		Form: forms.New(nil),
 	})
 }
 
+// SnippetsController#create
 func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -76,12 +87,14 @@ func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, fmt.Sprintf("/snippet/%d", id), http.StatusSeeOther)
 }
 
+// UsersController#new
 func (app *application) signupUserForm(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "signup.page.tmpl", &templateData{
 		Form: forms.New(nil),
 	})
 }
 
+// UsersController#create
 func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -116,12 +129,14 @@ func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/user/login", http.StatusSeeOther)
 }
 
+// SessionsController#new
 func (app *application) loginUserForm(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "login.page.tmpl", &templateData{
 		Form: forms.New(nil),
 	})
 }
 
+// SessionsController#create
 func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -145,6 +160,7 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/snippet/create", http.StatusSeeOther)
 }
 
+// UsersController#logout
 func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
 	app.session.Remove(r, "authenticatedUserID")
 	app.session.Put(r, "flash", "You've been logged out successfully!")

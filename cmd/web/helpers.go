@@ -10,6 +10,8 @@ import (
 	"github.com/justinas/nosurf"
 )
 
+// Helper functions declared against application so they can be called
+// inside Handlers like app.serverError(w, err)
 func (app *application) serverError(w http.ResponseWriter, err error) {
 	trace := fmt.Sprintf("%s\n%s", err.Error(), debug.Stack())
 	app.errorLog.Output(2, trace)
